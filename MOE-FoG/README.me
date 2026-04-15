@@ -1,1 +1,75 @@
+# Mixture-of-Experts (MoE) for FoG Detection
+
+This module contains the implementation of a Mixture-of-Experts (MoE) framework designed to handle heterogeneous wearable sensor configurations for Freezing of Gait (FoG) detection.
+
+The approach aims to model variability across datasets by assigning specialized experts to different sensor configurations and combining them through a gating mechanism.
+
+---
+
+## Overview
+
+Wearable datasets for Parkinson’s disease differ substantially in terms of:
+- sensor placement  
+- signal structure  
+- acquisition protocols  
+
+The MoE framework addresses this heterogeneity by:
+- structuring inputs into expert-specific representations  
+- activating only compatible experts for each dataset  
+- combining expert outputs through a learned gating mechanism  
+
+This module includes both data preparation steps and the final MoE implementation.
+
+---
+
+## Pipeline
+
+The workflow is organized into the following steps:
+
+### 1. Dataset Restructuring
+All datasets are converted into a unified tabular format:
+Dataset | IMU signal columns | FoG | Patient | Task | Session
+
+This step ensures consistency across heterogeneous data sources.
+
+---
+
+### 2. Dataset Cleaning and Resampling
+- removal of invalid or incomplete recordings  
+- resampling to a common frequency  
+
+This step harmonizes temporal resolution across datasets.
+
+---
+
+### 3. Magnitude-Based Signal Representation
+IMU signals are transformed from 3-axis components (x, y, z) into:
+
+- vertical component (v)  
+- horizontal magnitude (mag)  
+
+This reduces sensitivity to sensor orientation and ensures a consistent representation across datasets.
+
+---
+
+### 4. Side Selection and Position Normalization
+
+#### Side Selection
+For bilateral sensors, a linear regression-based analysis is used to identify the most informative side for FoG detection.  
+This reduces redundancy and computational cost.
+
+#### Position Normalization
+Sensor locations are standardized across datasets to ensure consistency in expert definitions.
+
+---
+
+### 5. Mixture-of-Experts Model
+
+The final MoE model is implemented in the provided notebook and includes:
+
+- expert networks (sensor-specific encoders)  
+- gating network for expert weighting  
+- dataset-dependent expert masking  
+- Leave-One-Dataset-Out (LODO) evaluation  
+
 
