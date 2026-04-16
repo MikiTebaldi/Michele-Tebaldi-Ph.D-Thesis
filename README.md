@@ -55,8 +55,3 @@ Main dependencies include:
 - Pandas
 - Scikit-learn
 - TSFEL
-
-Install with:
-
-```bash
-pip install -r requirements.txt
